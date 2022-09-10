@@ -29,9 +29,9 @@ public class Policy {
 	private String policyName;
 	private double policyPremium;
 	private String policyType;//type=ThirdPart or Comprehensive
-	private LocalDate policyDate;
-	private String policyYears;
-	private LocalDate expiryDate;
+	private LocalDate policyLaunchDate;
+	private int duration;
+	
 	
 	@OneToMany(mappedBy = "policy",cascade = CascadeType.ALL)
 	private Set<VehicleDetails> vehicle=new HashSet<VehicleDetails>();

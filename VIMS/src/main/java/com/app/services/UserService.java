@@ -2,6 +2,8 @@ package com.app.services;
 
 import java.time.LocalDate;
 
+import javax.transaction.Transaction;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,17 +44,16 @@ public class UserService implements IUserService{
 	}
 	@Override
 	public boolean RegisterUser(UserDto u) {
-		if(u==null) {
-			return false;
-		}
+		try {
 		User u1=mapper.map(u, User.class);
 		u1.setStatus(StatusEnum.ACTIVE);
-//		HashSet<UserRoles> hs=new HashSet<UserRoles>();
-//		u.getRoles().forEach(i->hs.add(roleRepo.findByRoleName(i)));
-//		u1.setRoles(hs);
 		u1.setDateCreated(LocalDate.now());
 		userRepo.save(u1);
 		return true;
+		}catch (Exception e) {
+			System.out.println(e.getStackTrace());
+			return false;
+		}
 	}
 	@Override
 	public boolean updatePasswrod(UserUpdate user1) {
@@ -89,6 +90,7 @@ public class UserService implements IUserService{
 			cust.setUserId(u);
 			cust.setLicenceNo(role.getLicenceNo());
 			custRepo.save(cust);
+			
 			return true;
 		}
 		return false;

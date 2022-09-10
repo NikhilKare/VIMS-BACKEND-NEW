@@ -4,6 +4,8 @@ import com.app.entities.InsuranceProvider;
 import com.app.entities.Policy;
 import com.app.entities.User;
 
+import DTO.PolicyDetailsDTO;
+
 public interface IProviderService {
 
 	boolean addPolicy(Policy policy);
@@ -12,6 +14,7 @@ public interface IProviderService {
 
 	InsuranceProvider addNewInsuranceProvider(InsuranceProvider provider,User u);
 
-	boolean addPolicy(Policy policy, User user);
+
+	boolean addPolicy(PolicyDetailsDTO policy, User user);
 
 }

@@ -106,7 +106,7 @@ public class UserController {
 			return Response.error(e.getMessage());
 		}
 	}
-	@PostMapping("/addRole")
+	@PostMapping("/role")
 	public ResponseEntity<?> addRole(@RequestBody RoleDTO role,HttpSession hs){
 		User u=(User)hs.getAttribute("userDetails");
 		if(userServ.addRole(role,u)) {

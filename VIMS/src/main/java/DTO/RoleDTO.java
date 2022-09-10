@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoleDTO {
+	
 	private String companyName;
 	private long licenceNo;
 	private Roles roles;	

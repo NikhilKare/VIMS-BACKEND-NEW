@@ -1,5 +1,7 @@
 package com.app.services;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class PolicyService implements IPolicyService{
 		Customer customer = custRepo.getById(userId);
 		if(customer.getVehicles().contains(vehicleDetails)) {
 			vehicleDetails.setPolicy(policy);
+			vehicleDetails.setSubscriptionDate(LocalDate.now());
+			vehicleDetails.setExpiryDate(LocalDate.now().plusYears(policy.getDuration()));
 			vehicleRepo.save(vehicleDetails);
 			return true;
 		}

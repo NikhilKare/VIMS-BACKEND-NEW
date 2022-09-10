@@ -28,6 +28,8 @@ public class VehicleDetails {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "policy_id")
 	private Policy policy;
+	private LocalDate subscriptionDate;
+	private LocalDate expiryDate;
 	
 	@Override
 	public boolean equals(Object o) {

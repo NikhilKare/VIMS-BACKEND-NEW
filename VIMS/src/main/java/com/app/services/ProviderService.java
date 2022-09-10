@@ -2,6 +2,7 @@ package com.app.services;
 
 import java.time.LocalDate;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,8 @@ import com.app.repository.IPolicyRepository;
 import com.app.repository.IProviderRepository;
 import com.app.repository.IUserRepository;
 
+import DTO.PolicyDetailsDTO;
+
 @Service
 @Transactional
 public class ProviderService implements IProviderService{
@@ -22,11 +25,13 @@ public class ProviderService implements IProviderService{
 	private IPolicyRepository policyRepo;
 	@Autowired
 	private IProviderRepository providerRepo;
+	@Autowired 
+	private ModelMapper mapper;
 	
 	@Override
 	public boolean addPolicy(Policy policy){
 		try {
-			policy.setPolicyDate(LocalDate.now());
+			policy.setPolicyLaunchDate(LocalDate.now());
 			
 			policyRepo.save(policy);
 			
@@ -53,11 +58,12 @@ public class ProviderService implements IProviderService{
 	}
 	
 	@Override
-	public boolean addPolicy(Policy policy,User user) {
+	public boolean addPolicy(PolicyDetailsDTO policyDTO,User user) {
 		try {
+			Policy policy=mapper.map(policyDTO, Policy.class);
+			policy.setPolicyLaunchDate(LocalDate.now());
 			InsuranceProvider provider=getProvider(user.getUserId());
 			policy.setProvider(provider);
-			policy.setPolicyDate(LocalDate.now());
 			policyRepo.save(policy);
 			return true;
 		}catch (Exception e) {

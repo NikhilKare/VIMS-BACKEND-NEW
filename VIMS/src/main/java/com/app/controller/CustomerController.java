@@ -16,6 +16,8 @@ import com.app.entities.VehicleDetails;
 import com.app.services.IPolicyService;
 import com.app.services.IVehicleService;
 
+import DTO.VehicleDTO;
+
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -26,9 +28,9 @@ public class CustomerController {
 	private IPolicyService policyServ;
 	
 	@PostMapping("/vehicle")
-	public ResponseEntity<?> addVehicleDetails(@RequestBody VehicleDetails vehicle,HttpSession hs){
+	public ResponseEntity<?> addVehicleDetails(@RequestBody VehicleDTO vehicleDTO,HttpSession hs){
 		User u=(User)hs.getAttribute("userDetails");
-		if(u!=null && vehicleServ.addVehicleDetails(vehicle, u.getUserId())) {
+		if(u!=null && vehicleServ.addVehicleDetails(vehicleDTO, u.getUserId())) {
 			return Response.success("Vehicle Details Added Successfully...");
 		}
 		return Response.error("Something Went Wrong..."); 

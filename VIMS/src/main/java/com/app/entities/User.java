@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +47,7 @@ public class User {
 	private StatusEnum status;
 	//@Enumerated(EnumType.STRING)
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "User_Roles",joinColumns = @JoinColumn(name="User_Id"),
+	@JoinTable(name = "User_Roles_Mapping",joinColumns = @JoinColumn(name="User_Id"),
 				inverseJoinColumns = @JoinColumn(name="Role_Id"))
 	private Set<UserRoles> roles=new HashSet<UserRoles>();
 	
