@@ -1,6 +1,10 @@
 package com.app.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transaction;
 
@@ -9,23 +13,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.dto.PolicyDetailsDTO;
+import com.app.dto.RoleDTO;
+import com.app.dto.UserDto;
+import com.app.dto.UserUpdate;
 import com.app.entities.Customer;
 import com.app.entities.InsuranceProvider;
-import com.app.entities.Roles;
-import com.app.entities.StatusEnum;
+import com.app.entities.Policy;
 import com.app.entities.User;
 import com.app.repository.ICustomerRepository;
+import com.app.repository.IPolicyRepository;
 import com.app.repository.IProviderRepository;
 import com.app.repository.IRolesRepository;
 import com.app.repository.IUserRepository;
-
-import DTO.RoleDTO;
-import DTO.UserDto;
-import DTO.UserUpdate;
+import com.app.utils.Roles;
+import com.app.utils.StatusEnum;
 
 @Service
 @Transactional
-public class UserService implements IUserService{
+public class UserServiceImpl implements IUserService{
 	@Autowired
 	IUserRepository userRepo;
 	@Autowired
@@ -34,6 +40,9 @@ public class UserService implements IUserService{
 	IProviderRepository providerRepo;
 	@Autowired
 	ICustomerRepository custRepo;
+	@Autowired
+	IPolicyRepository policyRepo;
+
 	@Autowired
 	ModelMapper mapper;
 	
@@ -94,5 +103,16 @@ public class UserService implements IUserService{
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public List<PolicyDetailsDTO> getAllPolicies() {
+		
+		 List<Policy> policies = policyRepo.findAll();
+		 List<PolicyDetailsDTO> policiesDTO=new ArrayList<PolicyDetailsDTO>();
+		 
+		policies.forEach(i-> policiesDTO.add( mapper.map(i, PolicyDetailsDTO.class)));
+		return policiesDTO;
+		// return policies.stream().map(i->mapper.map(policies, PolicyDetailsDTO.class)).collect(Collectors.toList());
 	}
 }

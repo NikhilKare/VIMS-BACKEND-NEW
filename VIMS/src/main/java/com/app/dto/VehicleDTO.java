@@ -1,6 +1,8 @@
-package DTO;
+package com.app.dto;
 
 import java.time.LocalDate;
+
+import com.app.entities.Policy;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,4 +17,5 @@ public class VehicleDTO {
 	private String vehicleNumber;//MH-15-....
 	private LocalDate subscriptionDate;
 	private LocalDate expiryDate;
+	private PolicyDetailsDTO policy;
 }

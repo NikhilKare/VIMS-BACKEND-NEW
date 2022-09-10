@@ -2,6 +2,8 @@ package com.app.entities;
 
 import javax.persistence.*;
 
+import com.app.utils.Roles;
+
 import lombok.*;
 
 @Entity

@@ -1,9 +1,9 @@
-package DTO;
+package com.app.dto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.app.entities.Roles;
+import com.app.utils.Roles;
 
 import lombok.Getter;
 import lombok.Setter;

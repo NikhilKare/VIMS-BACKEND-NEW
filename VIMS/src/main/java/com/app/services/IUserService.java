@@ -1,10 +1,13 @@
 package com.app.services;
 
-import com.app.entities.User;
+import java.util.List;
 
-import DTO.RoleDTO;
-import DTO.UserDto;
-import DTO.UserUpdate;
+import com.app.dto.PolicyDetailsDTO;
+import com.app.dto.RoleDTO;
+import com.app.dto.UserDto;
+import com.app.dto.UserUpdate;
+import com.app.entities.Policy;
+import com.app.entities.User;
 
 public interface IUserService {
 
@@ -14,4 +17,5 @@ public interface IUserService {
 	User save(User user);
 	User getById(long userId);
 	boolean addRole(RoleDTO role, User u);
+	List<PolicyDetailsDTO> getAllPolicies();
 }

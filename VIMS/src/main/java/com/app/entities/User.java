@@ -17,6 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.app.utils.StatusEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 

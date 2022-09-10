@@ -14,33 +14,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.entities.StatusEnum;
+import com.app.dto.LoginDTO;
+import com.app.dto.RoleDTO;
+import com.app.dto.UserDto;
+import com.app.dto.UserUpdate;
 import com.app.entities.User;
 import com.app.services.IProviderService;
-import com.app.services.UserService;
-
-import DTO.RoleDTO;
-import DTO.UserDto;
-import DTO.UserUpdate;
+import com.app.services.UserServiceImpl;
+import com.app.utils.Response;
+import com.app.utils.StatusEnum;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
-	UserService userServ;
+	UserServiceImpl userServ;
 	@Autowired
 	IProviderService providerServ;
 	
-	@PostMapping("/login")
-	public User getLogin(@RequestBody UserDto user,HttpSession hs) {
-		User u=userServ.findByEmailAndPass(user.getEmail(),user.getPassword());
-			System.out.println(u);			
-			if(u!=null) {
-				hs.setAttribute("userDetails", u);
-			}
-			return u;					
-	}
+//	@PostMapping("/login")
+//	public User getLogin(@RequestBody UserDto user,HttpSession hs) {
+//		User u=userServ.findByEmailAndPass(user.getEmail(),user.getPassword());
+//			System.out.println(u);			
+//			if(u!=null) {
+//				hs.setAttribute("userDetails", u);
+//			}
+//			return u;					
+//	}
+	
 	
 	@PostMapping("/updatepass")
 	public String updatePassword(@RequestBody UserUpdate useData ){
@@ -50,6 +52,7 @@ public class UserController {
 		msg="Password Updated";
 		return msg;
 	}
+	
 	
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getUserById(@PathVariable long userId){
@@ -61,12 +64,7 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping()
-	public String registerUsers(@RequestBody UserDto u) {
-		if(!userServ.RegisterUser(u))
-			return "Not Registered";
-		return "Registered Successfully...";
-	}
+	
 	
 	//User can Update his Profile by id
 	@PutMapping()
@@ -113,6 +111,11 @@ public class UserController {
 			return Response.success("Your Role has been Successfully Added...");
 		}
 		return Response.error("Something Went Wrong...");
+	}
+	
+	@GetMapping("/policies")
+	public ResponseEntity<?> getAllPolicies(){
+		return Response.success(userServ.getAllPolicies());
 	}
 }
 

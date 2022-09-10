@@ -33,8 +33,8 @@ public class Policy {
 	private int duration;
 	
 	
-	@OneToMany(mappedBy = "policy",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "policy",cascade = CascadeType.PERSIST)
 	private Set<VehicleDetails> vehicle=new HashSet<VehicleDetails>();
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private InsuranceProvider provider;
 }

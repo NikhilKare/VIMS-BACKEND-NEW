@@ -1,6 +1,6 @@
-package DTO;
+package com.app.dto;
 
-import com.app.entities.Roles;
+import com.app.utils.Roles;
 
 import lombok.Getter;
 import lombok.Setter;
