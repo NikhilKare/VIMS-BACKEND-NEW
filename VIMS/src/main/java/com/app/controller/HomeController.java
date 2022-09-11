@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,8 @@ import com.app.services.IHomeService;
 import com.app.utils.Response;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/home")
+@CrossOrigin(origins = "http://localhost:3000")
 public class HomeController {
 
 	@Autowired
@@ -43,6 +45,7 @@ public class HomeController {
 	
 	@GetMapping("/policies")
 	public ResponseEntity<?> getAllPolicies(){
-		return Response.success(homeServ.getAllPolicies());
+		//return Response.success(homeServ.getAllPolicies());
+		return ResponseEntity.ok(homeServ.getAllPolicies());
 	}
 }
