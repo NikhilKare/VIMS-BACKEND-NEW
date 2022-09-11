@@ -3,8 +3,6 @@ package com.app.services;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,13 +59,15 @@ public class ProviderServiceImpl implements IProviderService{
 	}
 	
 	@Override
-	public boolean addPolicy(PolicyDetailsDTO policyDTO,User user) {
+	public boolean addPolicy(PolicyDetailsDTO policyDTO,long userId) {
 		try {
 			Policy policy=mapper.map(policyDTO, Policy.class);
 			policy.setPolicyLaunchDate(LocalDate.now());
-			InsuranceProvider provider=getProvider(user.getUserId());
+			
+			InsuranceProvider provider = providerRepo.getById(userId);
+			provider.getPolicy().add(policy);
 			policy.setProvider(provider);
-			policyRepo.save(policy);
+//			policyRepo.save(policy);
 			return true;
 		}catch (Exception e) {
 			return false;
@@ -94,9 +94,29 @@ public class ProviderServiceImpl implements IProviderService{
 	}
 
 	@Override
-	public PolicyDetailsDTO getPolicy(long id, long policyId) {
+	public PolicyDetailsDTO getPolicy(long id, long policyId) throws Exception {
 		
-		Optional<Policy> policy = policyRepo.findById(policyId);
-		return mapper.map(policy, PolicyDetailsDTO.class);
+		Policy policy = policyRepo.findById(policyId).orElseThrow(()->  new Exception("Policy Not Found"));
+		if(policy.getProvider().getUserId().getUserId()==id)
+			return mapper.map(policy, PolicyDetailsDTO.class);
+		return null;
 	}
+	
+	@Override
+	public boolean updatePolicy(PolicyDetailsDTO policyDTO,long userId) {
+		try {
+			Policy policy=policyRepo.getById(policyDTO.getPolicyId());
+			mapper.map(policyDTO,policy);
+			InsuranceProvider provider = providerRepo.getById(userId);
+			provider.getPolicy().add(policy);
+			policy.setProvider(provider);
+//			policyRepo.save(policy);
+			return true;
+		}catch (Exception e) {
+			return false;
+		}		
+	}
+	
+	
+	
 }

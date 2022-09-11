@@ -1,7 +1,6 @@
 package com.app.services;
 
 import java.util.List;
-import java.util.Set;
 
 import com.app.dto.PolicyDetailsDTO;
 import com.app.entities.InsuranceProvider;
@@ -17,12 +16,14 @@ public interface IProviderService {
 	InsuranceProvider addNewInsuranceProvider(InsuranceProvider provider,User u);
 
 
-	boolean addPolicy(PolicyDetailsDTO policy, User user);
+	boolean addPolicy(PolicyDetailsDTO policy, long providerId);
 
 	List<PolicyDetailsDTO> getPolicies(long id);
 
 	boolean deletePolicy(long id, long policyId);
 
-	PolicyDetailsDTO getPolicy(long id, long policyId);
+	PolicyDetailsDTO getPolicy(long id, long policyId) throws Exception;
+
+	boolean updatePolicy(PolicyDetailsDTO policyDTO, long providerId);
 
 }

@@ -3,6 +3,8 @@ package com.app.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,21 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.LoginDTO;
 import com.app.dto.UserDto;
 import com.app.entities.User;
-import com.app.services.IProviderService;
-import com.app.services.UserServiceImpl;
+import com.app.services.IHomeService;
+import com.app.utils.Response;
 
 @RestController
 @RequestMapping
 public class HomeController {
 
 	@Autowired
-	UserServiceImpl userServ;
-	@Autowired
-	IProviderService providerServ;
+	IHomeService homeServ;
 	
 	@PostMapping
 	public String registerUsers(@RequestBody UserDto u) {
-		if(!userServ.RegisterUser(u))
+		if(!homeServ.RegisterUser(u))
 			return "Not Registered";
 		return "Registered Successfully...";
 	}
@@ -33,11 +33,16 @@ public class HomeController {
 	@PostMapping("/login")
 	public User getLogin( @RequestBody LoginDTO details,HttpSession hs) {
 		System.out.println("hoyli");
-		User u=userServ.findByEmailAndPass(details.getEmail(),details.getPassword());
+		User u=homeServ.findByEmailAndPass(details.getEmail(),details.getPassword());
 			System.out.println(u);			
 			if(u!=null) {
 				hs.setAttribute("userDetails", u);
 			}
 			return u;					
+	}
+	
+	@GetMapping("/policies")
+	public ResponseEntity<?> getAllPolicies(){
+		return Response.success(homeServ.getAllPolicies());
 	}
 }

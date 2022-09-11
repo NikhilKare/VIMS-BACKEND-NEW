@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.LoginDTO;
 import com.app.dto.RoleDTO;
-import com.app.dto.UserDto;
 import com.app.dto.UserUpdate;
 import com.app.entities.User;
 import com.app.services.IProviderService;
@@ -33,15 +31,7 @@ public class UserController {
 	@Autowired
 	IProviderService providerServ;
 	
-//	@PostMapping("/login")
-//	public User getLogin(@RequestBody UserDto user,HttpSession hs) {
-//		User u=userServ.findByEmailAndPass(user.getEmail(),user.getPassword());
-//			System.out.println(u);			
-//			if(u!=null) {
-//				hs.setAttribute("userDetails", u);
-//			}
-//			return u;					
-//	}
+
 	
 	
 	@PostMapping("/updatepass")
@@ -113,10 +103,7 @@ public class UserController {
 		return Response.error("Something Went Wrong...");
 	}
 	
-	@GetMapping("/policies")
-	public ResponseEntity<?> getAllPolicies(){
-		return Response.success(userServ.getAllPolicies());
-	}
+	
 }
 
 	

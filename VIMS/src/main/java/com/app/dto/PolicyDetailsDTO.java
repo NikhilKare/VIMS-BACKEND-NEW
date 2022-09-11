@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class PolicyDetailsDTO {
 
-	
+	private Long policyId;
 	private String policyName;
 	private double policyPremium;
 	private String policyType;//type=ThirdPart or Comprehensive

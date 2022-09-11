@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.app.entities.Customer;
-import com.app.entities.User;
 import com.app.entities.VehicleDetails;
 
 

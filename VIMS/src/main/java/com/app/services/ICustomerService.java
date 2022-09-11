@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.app.dto.VehicleDTO;
 import com.app.entities.Customer;
-import com.app.entities.Policy;
 
 public interface ICustomerService {
 
