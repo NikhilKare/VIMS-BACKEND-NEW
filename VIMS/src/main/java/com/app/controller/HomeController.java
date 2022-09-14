@@ -57,12 +57,12 @@ public class HomeController {
 //			 authenticate the credentials
 			Authentication authenticatedDetails = manager.authenticate(authToken);
 //			// => auth succcess
-//			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
+			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
 		} catch (BadCredentialsException e) { // lab work : replace this by a method in global exc handler
 //			// send back err resp code
-//			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}	
-		return null;
+		
 	}
 	
 	@GetMapping("/policies")

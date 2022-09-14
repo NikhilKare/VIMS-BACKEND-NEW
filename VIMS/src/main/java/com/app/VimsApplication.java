@@ -51,6 +51,3 @@ public class VimsApplication implements CommandLineRunner{
 		}
 
 }
-/*
- * THIS IS NEW FILES AS PER SAMMER SAID 
- */

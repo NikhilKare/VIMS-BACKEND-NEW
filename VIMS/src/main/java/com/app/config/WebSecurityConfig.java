@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 		.antMatchers("/user").hasAnyRole("USER","ADMIN")		
 		.antMatchers("/admin").hasRole("ADMIN")
-		.antMatchers("/api/home","/api/auth/**").permitAll() //enabling global access to all urls starting with /api/auth
+		.antMatchers("/api/home/**").permitAll() //enabling global access to all urls starting with /api/auth
 		//only for JS clients(react/Angular)
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		.and()
