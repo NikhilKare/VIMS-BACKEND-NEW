@@ -55,8 +55,8 @@ public class CustomerServiceImpl implements ICustomerService {
 			VehicleDetails vehicles=mapper.map(vehicleDTO, VehicleDetails.class);
 			Customer customer = custRepo.getById(userId);
 			vehicles.setCustomer(customer);
-			customer.getVehicles().add(vehicles);	
-			custRepo.save(customer);
+			//customer.getVehicles().add(vehicles);	
+			vehicleRepo.save(vehicles);
 			return true;
 		}catch (Exception e) {
 			System.out.println(e.getMessage());

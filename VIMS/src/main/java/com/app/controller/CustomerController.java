@@ -28,10 +28,9 @@ public class CustomerController {
 	
 	
 	
-	@PostMapping
-	public ResponseEntity<?> addVehicleDetails(@RequestBody VehicleDTO vehicleDTO,HttpSession hs){
-		User u=(User)hs.getAttribute("userDetails");
-		if(u!=null && custServ.addVehicleDetails(vehicleDTO, u.getUserId())) {
+	@PostMapping("/{id}")
+	public ResponseEntity<?> addVehicleDetails(@RequestBody VehicleDTO vehicleDTO,@PathVariable("id") long custId){
+		if(custServ.addVehicleDetails(vehicleDTO, custId)) {
 			return Response.success("Vehicle Details Added Successfully...");
 		}
 		return Response.error("Something Went Wrong..."); 

@@ -23,7 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		// invoke dao's method to load user details from db by username(ie. actaully an
 		// email)
 		User user = userRepo.
-				findByEmail(username);
+				findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Invalid Email ID "));;
 				//orElseThrow(() -> new UsernameNotFoundException("Invalid Email ID "));
 		System.out.println("lifted user dtls from db "+user);
 		return new CustomUserDetails(user);
