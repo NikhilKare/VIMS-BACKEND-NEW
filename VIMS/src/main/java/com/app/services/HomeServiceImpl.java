@@ -31,7 +31,11 @@ public class HomeServiceImpl implements IHomeService {
 	@Override
 	public User findByEmailAndPass(String email,String pass) {
 		System.out.println(email+" "+pass);
-		return userRepo.findByEmailAndPassword(email, pass);
+		User user = userRepo.findByEmailAndPassword(email, pass);
+		if(user==null)
+			return null;
+		user.getRoles().size();
+		return user;
 	}
 	
 	@Override

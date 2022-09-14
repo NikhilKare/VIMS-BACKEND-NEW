@@ -22,6 +22,6 @@ public class UserDto {
 	private String contactNumber;
 	private String email;
 	private String password;
-	
+	private String imagePath;
 	private Set<Roles> roles=new HashSet<Roles>();
 }

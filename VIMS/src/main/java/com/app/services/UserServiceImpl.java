@@ -1,11 +1,19 @@
 package com.app.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.RoleDTO;
+import com.app.dto.UserDto;
 import com.app.dto.UserUpdate;
 import com.app.entities.Customer;
 import com.app.entities.InsuranceProvider;
@@ -15,6 +23,7 @@ import com.app.repository.IPolicyRepository;
 import com.app.repository.IProviderRepository;
 import com.app.repository.IRolesRepository;
 import com.app.repository.IUserRepository;
+import com.app.utils.ImageHandlerImpl;
 import com.app.utils.Roles;
 
 @Service
@@ -30,7 +39,9 @@ public class UserServiceImpl implements IUserService{
 	ICustomerRepository custRepo;
 	@Autowired
 	IPolicyRepository policyRepo;
-
+	
+	@Value("${file.upload.location}")
+	private String baseFolder;
 	@Autowired
 	ModelMapper mapper;
 	
@@ -76,6 +87,21 @@ public class UserServiceImpl implements IUserService{
 		}
 		return false;
 	}
-	
+	@Override
+	public UserDto uploadImage(long id,MultipartFile file) throws IOException {
+		User user = userRepo.getById(id);
+		String path=baseFolder+File.separator+"User";
+		
+		user.setImagePath(ImageHandlerImpl.storeImage(path, file));
+		userRepo.save(user);
+		return mapper.map(user, UserDto.class);
+	}
+	@Override
+	public byte[] restoreImage(long userId) throws IOException {
+		User user=userRepo.findById(userId).get();
+		String path=user.getImagePath();
+		System.out.println("Image path:-"+path);
+		return Files.readAllBytes(Paths.get(path));
+	}
 	
 }

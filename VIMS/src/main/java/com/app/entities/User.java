@@ -47,10 +47,12 @@ public class User {
 	private LocalDate dateCreated;
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
-	//@Enumerated(EnumType.STRING)
+	private String imagePath;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "User_Roles_Mapping",joinColumns = @JoinColumn(name="User_Id"),
 				inverseJoinColumns = @JoinColumn(name="Role_Id"))
 	private Set<UserRoles> roles=new HashSet<UserRoles>();
+	
 	
 }

@@ -7,4 +7,5 @@ import com.app.entities.User;
 public interface IUserRepository extends JpaRepository<User, Long> {
 	//login
 	User findByEmailAndPassword(String email,String pass);
+	User findByEmail(String email);
 }

@@ -15,5 +15,6 @@ public class PolicyDetailsDTO {
 	private String policyType;//type=ThirdPart or Comprehensive
 	private LocalDate policyLaunchDate;
 	private int duration;
+	private ProviderDTO provider;
 	
 }
