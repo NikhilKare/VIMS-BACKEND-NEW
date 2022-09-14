@@ -4,11 +4,10 @@ package com.app.controller;
 
 
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -62,11 +61,8 @@ public class HomeController {
 			Authentication authenticatedDetails = manager.authenticate(authToken);
 //			// => auth succcess
 			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
-<<<<<<< HEAD
+
 		} catch (BadCredentialsException e) { // lab work : replace this by a method in global exc handler
-=======
-		} catch (/*BadCredentials*/Exception e) { // lab work : replace this by a method in global exc handler
->>>>>>> 612eb499c5e3aa325ba581a90f7d8faf6b73eea9
 //			// send back err resp code
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}	
