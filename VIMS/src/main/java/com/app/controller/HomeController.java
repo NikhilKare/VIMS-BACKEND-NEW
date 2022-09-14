@@ -2,10 +2,13 @@ package com.app.controller;
 
 
 
+
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -49,7 +52,8 @@ public class HomeController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> getLogin(@RequestBody AuthRequest request) {
+	public ResponseEntity<?> getLogin(@RequestBody @Valid AuthRequest request) {
+		
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.getEmail(),
 				request.getPassword());
 		log.info("auth token " + authToken);
@@ -57,8 +61,8 @@ public class HomeController {
 //			 authenticate the credentials
 			Authentication authenticatedDetails = manager.authenticate(authToken);
 //			// => auth succcess
-//			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
-		} catch (BadCredentialsException e) { // lab work : replace this by a method in global exc handler
+			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
+		} catch (/*BadCredentials*/Exception e) { // lab work : replace this by a method in global exc handler
 //			// send back err resp code
 //			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}	

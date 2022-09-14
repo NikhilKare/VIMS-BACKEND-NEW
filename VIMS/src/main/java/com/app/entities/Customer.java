@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
@@ -27,6 +28,6 @@ public class Customer{
 	@MapsId
 	private User userId;
 	private Long licenceNo;
-	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
 	private Set<VehicleDetails> vehicles=new HashSet<VehicleDetails>();
 }
