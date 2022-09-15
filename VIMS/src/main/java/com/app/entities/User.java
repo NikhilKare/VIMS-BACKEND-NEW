@@ -49,6 +49,7 @@ public class User {
 	private StatusEnum status;
 	private String imagePath;
 	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "User_Roles_Mapping",joinColumns = @JoinColumn(name="User_Id"),
 				inverseJoinColumns = @JoinColumn(name="Role_Id"))

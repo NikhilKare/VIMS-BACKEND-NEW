@@ -14,4 +14,5 @@ import lombok.ToString;
 public class AuthResp {
 	private String message;
 	private String jwt;
+	private UserDto user;
 }

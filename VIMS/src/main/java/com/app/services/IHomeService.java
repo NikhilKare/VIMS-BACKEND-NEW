@@ -11,4 +11,5 @@ public interface IHomeService {
 	User findByEmailAndPass(String email, String pass);
 	boolean RegisterUser(UserDto u);
 	List<PolicyDetailsDTO> getAllPolicies();
+	UserDto findByEmail(String email);
 }

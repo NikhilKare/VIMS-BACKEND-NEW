@@ -47,6 +47,7 @@ public class HomeController {
 	public String registerUsers(@RequestBody UserDto u) {
 		if(!homeServ.RegisterUser(u))
 			return "Not Registered";
+		
 		return "Registered Successfully...";
 	}
 	
@@ -59,8 +60,8 @@ public class HomeController {
 		try {
 //			 authenticate the credentials
 			Authentication authenticatedDetails = manager.authenticate(authToken);
-//			// => auth succcess
-			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
+//			// => auth succcess,
+			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails),homeServ.findByEmail(request.getEmail())));
 
 		} catch (BadCredentialsException e) { // lab work : replace this by a method in global exc handler
 //			// send back err resp code

@@ -2,7 +2,9 @@ package com.app.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.app.entities.Policy;
 import com.app.entities.User;
 import com.app.repository.IPolicyRepository;
 import com.app.repository.IUserRepository;
+import com.app.utils.Roles;
 import com.app.utils.StatusEnum;
 
 @Service
@@ -28,6 +31,8 @@ public class HomeServiceImpl implements IHomeService {
 	ModelMapper mapper;
 	@Autowired 
 	IPolicyRepository policyRepo;
+
+
 	@Override
 	public User findByEmailAndPass(String email,String pass) {
 		System.out.println(email+" "+pass);
@@ -61,5 +66,15 @@ public class HomeServiceImpl implements IHomeService {
 		policies.forEach(i-> policiesDTO.add( mapper.map(i, PolicyDetailsDTO.class)));
 		return policiesDTO;
 		// return policies.stream().map(i->mapper.map(policies, PolicyDetailsDTO.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public UserDto findByEmail(String email) {
+		User user=userRepo.findByEmail(email).orElseThrow();
+		 UserDto userDto = mapper.map(user, UserDto.class);
+		 Set<Roles> roles=new HashSet<>();
+		 user.getRoles().forEach(i->roles.add(i.getRoleName()));
+		 userDto.setRoles(roles);
+		 return userDto;
 	}
 }

@@ -3,6 +3,10 @@ package com.app.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.MapKeyType;
+import org.hibernate.annotations.Type;
+import org.springframework.web.bind.annotation.Mapping;
+
 import com.app.utils.Roles;
 
 import lombok.Getter;
@@ -23,5 +27,6 @@ public class UserDto {
 	private String email;
 	private String password;
 	private String imagePath;
+	
 	private Set<Roles> roles=new HashSet<Roles>();
 }
