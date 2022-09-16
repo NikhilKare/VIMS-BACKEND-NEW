@@ -18,6 +18,7 @@ import com.app.dto.UserUpdate;
 import com.app.entities.Customer;
 import com.app.entities.InsuranceProvider;
 import com.app.entities.User;
+import com.app.entities.UserRoles;
 import com.app.repository.ICustomerRepository;
 import com.app.repository.IPolicyRepository;
 import com.app.repository.IProviderRepository;
@@ -68,7 +69,8 @@ public class UserServiceImpl implements IUserService{
 		
 	}
 	@Override
-	public boolean addRole(RoleDTO role, User u) {
+	public boolean addRole(RoleDTO role, long uId) {
+		User u=userRepo.getById(uId);
 		u.getRoles().add(roleRepo.getByRoleName(role.getRoles()));
 		u = userRepo.save(u);
 		if(role.getRoles()==Roles.POLICY_PROVIDER) {
@@ -87,6 +89,10 @@ public class UserServiceImpl implements IUserService{
 		}
 		return false;
 	}
+	
+	
+	
+	
 	@Override
 	public UserDto uploadImage(long id,MultipartFile file) throws IOException {
 		User user = userRepo.getById(id);
@@ -103,5 +109,21 @@ public class UserServiceImpl implements IUserService{
 		System.out.println("Image path:-"+path);
 		return Files.readAllBytes(Paths.get(path));
 	}
+	@Override
+	public boolean removeRole(Roles roleName, long id) {
+		User u=userRepo.getById(id);
+		UserRoles role = roleRepo.getByRoleName(roleName);
+		if( u.getRoles().remove(role))
+			{
+				if(roleName==Roles.CUSTOMER)
+					custRepo.deleteById(id);
+				else if(roleName==Roles.POLICY_PROVIDER)
+					providerRepo.deleteById(id);
+				return true;
+			};
+		return false;
+	
+	}
+	
 	
 }

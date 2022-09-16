@@ -27,6 +27,7 @@ import com.app.entities.User;
 import com.app.services.IProviderService;
 import com.app.services.UserServiceImpl;
 import com.app.utils.Response;
+import com.app.utils.Roles;
 import com.app.utils.StatusEnum;
 
 @RestController
@@ -102,10 +103,10 @@ public class UserController {
 			return Response.error(e.getMessage());
 		}
 	}
-	@PostMapping("/role")
-	public ResponseEntity<?> addRole(@RequestBody RoleDTO role,HttpSession hs){
-		User u=(User)hs.getAttribute("userDetails");
-		if(userServ.addRole(role,u)) {
+	@PostMapping("/{id}/role")
+	public ResponseEntity<?> addRole(@RequestBody RoleDTO role,@PathVariable long id){
+		
+		if(userServ.addRole(role,id)) {
 			return Response.success("Your Role has been Successfully Added...");
 		}
 		return Response.error("Something Went Wrong...");
@@ -125,6 +126,15 @@ public class UserController {
 		System.out.println("in img download " + userId);
 		byte[] imageContext=userServ.restoreImage(userId);
 		return ResponseEntity.ok(imageContext);
+	}
+	
+	@DeleteMapping("/{id}/role/{roleName}")
+	public ResponseEntity<?> removeRole(@PathVariable long id,@PathVariable Roles roleName){
+		if(userServ.removeRole(roleName, id)) {
+			return ResponseEntity.ok("Role Removed Successfully");
+		};
+		return ResponseEntity.badRequest().body("Cannot remove role");
+		
 	}
 }
 

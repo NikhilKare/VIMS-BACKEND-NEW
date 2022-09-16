@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,8 @@ public class HomeServiceImpl implements IHomeService {
 	ModelMapper mapper;
 	@Autowired 
 	IPolicyRepository policyRepo;
-
+	@Autowired
+	PasswordEncoder encoder;
 
 	@Override
 	public User findByEmailAndPass(String email,String pass) {
@@ -49,6 +51,7 @@ public class HomeServiceImpl implements IHomeService {
 		User u1=mapper.map(u, User.class);
 		u1.setStatus(StatusEnum.ACTIVE);
 		u1.setDateCreated(LocalDate.now());
+		u1.setPassword(encoder.encode(u.getPassword()));
 		userRepo.save(u1);
 		return true;
 		}catch (Exception e) {

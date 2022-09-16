@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.services.IAdminService;
 import com.app.services.IUserService;
 
 @RestController
@@ -11,7 +12,7 @@ import com.app.services.IUserService;
 public class AdminController {
 	
 	@Autowired
-	IUserService userServ;
+	IAdminService adminServ;
 	
 	
 	

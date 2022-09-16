@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "roleId")
 public class UserRoles {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
