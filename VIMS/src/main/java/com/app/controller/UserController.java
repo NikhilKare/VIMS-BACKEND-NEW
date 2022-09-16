@@ -31,7 +31,7 @@ import com.app.utils.Roles;
 import com.app.utils.StatusEnum;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 	

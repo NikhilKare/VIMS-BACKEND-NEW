@@ -8,7 +8,7 @@ import com.app.services.IAdminService;
 import com.app.services.IUserService;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 	
 	@Autowired

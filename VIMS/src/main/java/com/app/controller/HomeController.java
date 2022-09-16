@@ -29,7 +29,7 @@ import com.app.services.IHomeService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/home")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class HomeController {
