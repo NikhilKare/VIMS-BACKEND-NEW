@@ -25,9 +25,12 @@ public class CustomerController {
 	private ICustomerService custServ;
 	
 	
+	@GetMapping
+	public String getCustomer(@PathVariable long id){
+		return  custServ.getLicenseNo(id);
+	}
 	
-	
-	@PostMapping
+	@PostMapping("/vehicles")
 	public ResponseEntity<?> addVehicleDetails(@RequestBody VehicleDTO vehicleDTO,@PathVariable("id") long custId){
 		if(custServ.addVehicleDetails(vehicleDTO, custId)) {
 			return Response.success("Vehicle Details Added Successfully...");
@@ -35,8 +38,8 @@ public class CustomerController {
 		return Response.error("Something Went Wrong..."); 
 	}
 	
-	@GetMapping("/addPolicy")
-	public ResponseEntity<?> subscribePolicy(@RequestParam String vehicleId,@RequestParam long policyId,@PathVariable long id){
+	@GetMapping("/vehicles/{vehicleId}/addPolicy")
+	public ResponseEntity<?> subscribePolicy(@PathVariable String vehicleId,@RequestParam long policyId,@PathVariable long id){
 		
 		if(custServ.subscribePolicy(vehicleId,policyId,id)) {
 			return Response.success("Policy Subscribed Successfully...");
@@ -44,7 +47,7 @@ public class CustomerController {
 		return Response.error("Something Went Wrong..."); 		
 	}
 	
-	@GetMapping
+	@GetMapping("/vehicles")
 	public ResponseEntity<?> getAllvehicles(@PathVariable("id") long custId){		
 	
 		return Response.success(custServ.getAllVehicles(custId));	

@@ -33,9 +33,9 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Autowired 
 	ModelMapper mapper;
 	@Override
-	public Customer getCustomerById(long id) {
+	public String getLicenseNo(long id) {
 		 Customer customer = custRepo.getById(id);
-		 return customer;
+		 return customer.getLicenceNo();
 	}
 	
 	@Override

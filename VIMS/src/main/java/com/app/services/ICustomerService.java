@@ -8,7 +8,7 @@ import com.app.entities.Customer;
 
 public interface ICustomerService {
 
-	Customer getCustomerById(long id);
+//	Customer getCustomerById(long id);
 
 	List<VehicleDTO> getAllVehicles(long custId);
 
@@ -17,6 +17,8 @@ public interface ICustomerService {
 	boolean subscribePolicy(String vehicleId, long policyId,long userId);
 
 	boolean deleteVehicle(long id, String chasisNo);
+
+	String getLicenseNo(long id);
 
 
 
