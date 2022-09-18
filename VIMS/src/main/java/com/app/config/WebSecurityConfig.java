@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/user").hasAnyRole("USER","ADMIN")
+		.antMatchers("/user/**").permitAll()/*hasAnyRole("USER","ADMIN")*/
 		.antMatchers("/customers").hasRole("CUSTOMER")
 		.antMatchers("/admin").hasRole("ADMIN")
 		.antMatchers("/api/home/**").permitAll() //enabling global access to all urls starting with /api/auth
