@@ -24,6 +24,11 @@ public class CustomerController {
 	@Autowired
 	private ICustomerService custServ;
 	
+	@GetMapping("/policy/{policyid}")
+	public ResponseEntity<?> getPolicyById(@PathVariable("id") long custId,@PathVariable long policyid){		
+	
+		return Response.success(custServ.getPolicyById(policyid));	
+	}
 	
 	@GetMapping
 	public String getCustomer(@PathVariable long id){

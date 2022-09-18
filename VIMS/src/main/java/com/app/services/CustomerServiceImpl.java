@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.dto.PolicyDetailsDTO;
 import com.app.dto.VehicleDTO;
 import com.app.entities.Customer;
 import com.app.entities.Policy;
@@ -92,6 +93,12 @@ public class CustomerServiceImpl implements ICustomerService {
 			result=true;
 		}
 		return result;
+	}
+
+	@Override
+	public PolicyDetailsDTO getPolicyById(long id) {
+		PolicyDetailsDTO policy=mapper.map(policyRepo.findById(id).get(),PolicyDetailsDTO.class);
+		return policy;
 	}
 	
 }

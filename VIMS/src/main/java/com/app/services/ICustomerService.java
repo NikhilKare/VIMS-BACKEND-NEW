@@ -3,8 +3,8 @@ package com.app.services;
 
 import java.util.List;
 
+import com.app.dto.PolicyDetailsDTO;
 import com.app.dto.VehicleDTO;
-import com.app.entities.Customer;
 
 public interface ICustomerService {
 
@@ -19,6 +19,8 @@ public interface ICustomerService {
 	boolean deleteVehicle(long id, String chasisNo);
 
 	String getLicenseNo(long id);
+
+	PolicyDetailsDTO getPolicyById(long id);
 
 
 
