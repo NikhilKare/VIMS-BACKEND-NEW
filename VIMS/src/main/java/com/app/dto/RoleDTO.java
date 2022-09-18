@@ -10,6 +10,6 @@ import lombok.Setter;
 public class RoleDTO {
 	
 	private String companyName;
-	private long licenceNo;
+	private String licenceNo;
 	private Roles roles;	
 }
