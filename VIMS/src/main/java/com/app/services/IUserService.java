@@ -14,10 +14,11 @@ public interface IUserService {
 
 	
 	boolean updatePasswrod(UserUpdate user1);
-	User save(User user);
-	User getById(long userId);
+	User save(UserDto user);
+	UserDto getById(long userId);
 	boolean addRole(RoleDTO role, long uid);
 	UserDto uploadImage(long id, MultipartFile file) throws IOException;
 	byte[] restoreImage(long userId) throws IOException;
 	boolean removeRole(Roles role, long id);
+	void changeStatusAccount(long id);
 }

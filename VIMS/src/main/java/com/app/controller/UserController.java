@@ -2,8 +2,6 @@ package com.app.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +23,7 @@ import com.app.dto.UserDto;
 import com.app.dto.UserUpdate;
 import com.app.entities.User;
 import com.app.services.IProviderService;
-import com.app.services.UserServiceImpl;
+import com.app.services.IUserService;
 import com.app.utils.Response;
 import com.app.utils.Roles;
 import com.app.utils.StatusEnum;
@@ -36,7 +34,7 @@ import com.app.utils.StatusEnum;
 public class UserController {
 	
 	@Autowired
-	UserServiceImpl userServ;
+	IUserService userServ;
 	@Autowired
 	IProviderService providerServ;
 	
@@ -56,7 +54,7 @@ public class UserController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getUserById(@PathVariable long userId){
 		try {
-			User u=userServ.getById(userId);
+			UserDto u=userServ.getById(userId);
 			return Response.success(u);	
 		}catch (Exception e) {
 			return Response.error(e.getMessage());
@@ -67,24 +65,25 @@ public class UserController {
 	
 	//User can Update his Profile by id
 	@PutMapping()
-	public ResponseEntity<?> updateProfile(@RequestBody User user){
-		try {
-			User user1=userServ.save(user);			
+	public ResponseEntity<?> updateProfile(@RequestBody UserDto user){
+//		try {
+			System.out.println("in update"+user);
+			User user1=userServ.save(user);	
+			System.out.println(user1);
 			if(user1==null)				
 				return Response.status(HttpStatus.NOT_FOUND);
 			return Response.success(user1);				
-		}catch (Exception e) {
-			return Response.error(e.getMessage());
-		}
+//		}catch (Exception e) {
+//			return Response.error(e.getMessage());
+//		}
 	}
 	
 	//desableUserAccount by User
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> desableUserAccount(@PathVariable long id){
 		try {
-			User u=userServ.getById(id);
-			u.setStatus(StatusEnum.INACTIVE);
-			userServ.save(u);
+			
+			userServ.changeStatusAccount(id);
 			return Response.success("Your Account has been Successfully Deactivated...ThankYou");
 		}catch (Exception e) {
 			return Response.error(e.getMessage());
@@ -95,9 +94,7 @@ public class UserController {
 	@GetMapping("/reactivate/{id}")
 	public ResponseEntity<?> reActivateUserAccount(@PathVariable long id){
 		try {
-			User u=userServ.getById(id);
-			u.setStatus(StatusEnum.ACTIVE);
-			userServ.save(u);
+			userServ.changeStatusAccount(id);
 			return Response.success("Your Account has been Successfully Activated...Welcome Back");
 		}catch (Exception e) {
 			return Response.error(e.getMessage());

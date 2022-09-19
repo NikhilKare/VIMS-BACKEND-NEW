@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.app.repository.IRolesRepository;
 import com.app.repository.IUserRepository;
 import com.app.utils.ImageHandlerImpl;
 import com.app.utils.Roles;
+import com.app.utils.StatusEnum;
 
 @Service
 @Transactional
@@ -58,14 +60,22 @@ public class UserServiceImpl implements IUserService{
 		return true;
 	}
 	@Override
-	public User save(User user) {
-		return userRepo.save(user);
+	public User save(UserDto user) {
+		User u=userRepo.getById(user.getUserId());
+		Set<UserRoles> roles = u.getRoles();
+		System.out.println("maping");
+		mapper.map(user,u);
+		u.setRoles(roles);
+		System.out.println(u);
+		System.out.println("after map");
+		return userRepo.saveAndFlush(u);
 	}
 	@Override
-	public User getById(long userId) {
+	public UserDto getById(long userId) {
 		User u=userRepo.getById(userId);
-		u.getRoles();
-		return u;
+		UserDto userDto = mapper.map(u, UserDto.class);
+		u.getRoles().forEach(r->userDto.getRoles().add(r.getRoleName()));
+		return userDto;
 		
 	}
 	@Override
@@ -123,6 +133,17 @@ public class UserServiceImpl implements IUserService{
 			};
 		return false;
 	
+	}
+	@Override
+	public void changeStatusAccount(long id) {
+		User u=userRepo.getById(id);
+		if(u.getStatus()==StatusEnum.INACTIVE)
+			u.setStatus(StatusEnum.ACTIVE);	
+		else
+		u.setStatus(StatusEnum.INACTIVE);
+		userRepo.save(u);
+		
+		
 	}
 	
 	

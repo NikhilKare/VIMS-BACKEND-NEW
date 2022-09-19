@@ -11,8 +11,10 @@ import com.app.utils.Roles;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 @Getter
 @Setter
+@ToString
 public class UserDto {
 	
 	private Long userId;

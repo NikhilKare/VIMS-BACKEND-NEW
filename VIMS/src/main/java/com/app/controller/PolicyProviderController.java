@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,8 @@ import com.app.services.IProviderService;
 import com.app.utils.Response;
 
 @RestController
-@RequestMapping("/provider")
+@RequestMapping("/api/provider")
+@CrossOrigin
 public class PolicyProviderController {
 	
 	@Autowired
@@ -29,8 +31,6 @@ public class PolicyProviderController {
 	public ResponseEntity<?> getPoliciesOfProvider(@PathVariable long id)
 	{
 	List<PolicyDetailsDTO> policies= providerServ.getPolicies(id);
-	if(policies.isEmpty())
-		return Response.success("No Policies added");
 	return Response.success(policies);
 	}
 	
@@ -44,8 +44,8 @@ public class PolicyProviderController {
 		return Response.error("Failed to add policy...Please check");		
 	}
 	
-	@GetMapping("/policies/{policyId}")
-	public ResponseEntity<?> getPolicy(@RequestParam long id,@PathVariable long policyId){
+	@GetMapping("{id}/policies/{policyId}")
+	public ResponseEntity<?> getPolicy(@PathVariable long id,@PathVariable long policyId){
 		PolicyDetailsDTO policyDetailsDTO=null;
 		 try {
 		 policyDetailsDTO = providerServ.getPolicy(id,policyId);
