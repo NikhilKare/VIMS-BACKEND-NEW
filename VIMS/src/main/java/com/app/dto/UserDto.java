@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.web.bind.annotation.Mapping;
 
 import com.app.utils.Roles;
+import com.app.utils.StatusEnum;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,6 @@ public class UserDto {
 	private String email;
 	private String password;
 	private String imagePath;
-	
+	private StatusEnum status;
 	private Set<Roles> roles=new HashSet<Roles>();
 }

@@ -81,17 +81,20 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public boolean addRole(RoleDTO role, long uId) {
 		User u=userRepo.getById(uId);
+		
 		u.getRoles().add(roleRepo.getByRoleName(role.getRoles()));
 		u = userRepo.save(u);
 		if(role.getRoles()==Roles.POLICY_PROVIDER) {
+			
 			InsuranceProvider provider=new InsuranceProvider();			
 			provider.setCompanyName(role.getCompanyName());
-			provider.setUserId(u);
+			provider.setUser(u);
+			provider.setStatus(StatusEnum.PENDING);
 			providerRepo.save(provider);
 			return true;
 		}else if(role.getRoles()==Roles.CUSTOMER){
 			Customer cust=new Customer();		    
-			cust.setUserId(u);
+			cust.setUser(u);
 			cust.setLicenceNo(role.getLicenceNo());
 			custRepo.save(cust);
 			

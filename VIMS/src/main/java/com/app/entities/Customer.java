@@ -26,7 +26,7 @@ public class Customer{
 	@OneToOne
 	@JoinColumn(name = "user_Id")
 	@MapsId
-	private User userId;
+	private User user;
 	private String licenceNo;
 	@OneToMany(mappedBy = "customer",cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
 	private Set<VehicleDetails> vehicles=new HashSet<VehicleDetails>();

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.PolicyDetailsDTO;
+import com.app.dto.ProviderDTO;
 import com.app.services.IProviderService;
 import com.app.utils.Response;
 
@@ -26,6 +27,12 @@ public class PolicyProviderController {
 	
 	@Autowired
 	private IProviderService providerServ;
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getProvider(@PathVariable long id){
+		ProviderDTO provider = providerServ.getProvider(id);
+		return Response.success(provider);
+	}
 	
 	@GetMapping("/{id}/policies")
 	public ResponseEntity<?> getPoliciesOfProvider(@PathVariable long id)
@@ -68,8 +75,8 @@ public class PolicyProviderController {
 
 	
 	
-	@DeleteMapping("/{policyId}")
-	public ResponseEntity<?> removePolicy(@RequestParam long id,@PathVariable long policyId){
+	@DeleteMapping("/{id}/policies/{policyId}")
+	public ResponseEntity<?> removePolicy(@PathVariable long id,@PathVariable long policyId){
 		
 		boolean result=providerServ.deletePolicy(id,policyId);
 		if(result)
