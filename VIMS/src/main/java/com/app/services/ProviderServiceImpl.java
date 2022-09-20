@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dto.PolicyDetailsDTO;
+import com.app.dto.ProviderDTO;
 import com.app.entities.InsuranceProvider;
 import com.app.entities.Policy;
 import com.app.entities.User;
@@ -44,17 +45,17 @@ public class ProviderServiceImpl implements IProviderService{
 	}
 
 	@Override
-	public InsuranceProvider getProvider(Long userId) {
+	public ProviderDTO getProvider(Long userId) {
 		 InsuranceProvider provider = providerRepo.getById(userId);
 		 System.out.println("In Get Provider");
 		 System.out.println(provider);
-		 provider.getPolicy().forEach(i->System.out.println(i));
-		 return provider;		 
+		 
+		 return mapper.map(provider, ProviderDTO.class);		 
 	}
 
 	@Override
 	public InsuranceProvider addNewInsuranceProvider(InsuranceProvider provider,User u) {
-		provider.setUserId(userRepo.save(u)); 
+		provider.setUser(userRepo.save(u)); 
 		return providerRepo.save(provider);
 	}
 	
@@ -97,7 +98,7 @@ public class ProviderServiceImpl implements IProviderService{
 	public PolicyDetailsDTO getPolicy(long id, long policyId) throws Exception {
 		
 		Policy policy = policyRepo.findById(policyId).orElseThrow(()->  new Exception("Policy Not Found"));
-		if(policy.getProvider().getUserId().getUserId()==id)
+		if(policy.getProvider().getUser().getUserId()==id)
 			return mapper.map(policy, PolicyDetailsDTO.class);
 		return null;
 	}

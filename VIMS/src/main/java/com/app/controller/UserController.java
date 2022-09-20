@@ -26,7 +26,6 @@ import com.app.services.IProviderService;
 import com.app.services.IUserService;
 import com.app.utils.Response;
 import com.app.utils.Roles;
-import com.app.utils.StatusEnum;
 
 @RestController
 @RequestMapping("/api/users")

@@ -11,6 +11,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.app.utils.StatusEnum;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +26,9 @@ public class InsuranceProvider{
 	@OneToOne
 	@JoinColumn(name = "user_Id")
 	@MapsId
-	private User userId;
+	private User user;
 	private String companyName;
+	private StatusEnum status;
 	@OneToMany(mappedBy = "provider",cascade = CascadeType.ALL)
 	private Set<Policy> policy=new HashSet<>();
 }

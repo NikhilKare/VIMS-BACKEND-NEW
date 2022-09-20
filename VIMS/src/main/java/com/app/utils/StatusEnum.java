@@ -1,5 +1,5 @@
 package com.app.utils;
 
 public enum StatusEnum {
-	ACTIVE ,INACTIVE
+	ACTIVE ,INACTIVE,PENDING,REJECTED,APPROVED
 }

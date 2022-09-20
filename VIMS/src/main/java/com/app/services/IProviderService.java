@@ -3,6 +3,7 @@ package com.app.services;
 import java.util.List;
 
 import com.app.dto.PolicyDetailsDTO;
+import com.app.dto.ProviderDTO;
 import com.app.entities.InsuranceProvider;
 import com.app.entities.Policy;
 import com.app.entities.User;
@@ -11,7 +12,7 @@ public interface IProviderService {
 
 	boolean addPolicy(Policy policy);
 
-	InsuranceProvider getProvider(Long userId);
+	ProviderDTO getProvider(Long userId);
 
 	InsuranceProvider addNewInsuranceProvider(InsuranceProvider provider,User u);
 
