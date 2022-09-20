@@ -17,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = {"customer","policy"})
-@EqualsAndHashCode(of  = "chasisNo")
+@EqualsAndHashCode(of  = {"chasisNo"})
 public class VehicleDetails {
 	@Id
 	private String chasisNo;

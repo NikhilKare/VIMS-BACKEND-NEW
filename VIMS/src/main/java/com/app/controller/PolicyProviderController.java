@@ -68,8 +68,8 @@ public class PolicyProviderController {
 
 	
 	
-	@DeleteMapping("/{policyId}")
-	public ResponseEntity<?> removePolicy(@RequestParam long id,@PathVariable long policyId){
+	@DeleteMapping("/{id}/policies/{policyId}")
+	public ResponseEntity<?> removePolicy(@PathVariable long id,@PathVariable long policyId){
 		
 		boolean result=providerServ.deletePolicy(id,policyId);
 		if(result)

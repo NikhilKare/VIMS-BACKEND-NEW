@@ -84,10 +84,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	public boolean deleteVehicle(long id, String chasisNo) {
 		Boolean result=false;
 		Customer cust=custRepo.getById(id);
+		System.out.println(cust.getVehicles());
 		VehicleDetails vehicle=new VehicleDetails();
 		vehicle.setChasisNo(chasisNo);
 		if(cust.getVehicles().contains(vehicle))
 		{
+			System.out.println("in if");
+			vehicle.setPolicy(null);
 			cust.getVehicles().remove(vehicle);
 			vehicleRepo.delete(vehicle);
 			result=true;

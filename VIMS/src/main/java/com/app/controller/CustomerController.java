@@ -60,6 +60,7 @@ public class CustomerController {
 	
 	@DeleteMapping("/vehicles/{vehicleId}")
 	public ResponseEntity<?> deleteVehicle(@PathVariable long id,@PathVariable("vehicleId") String chasisNo){
+		System.out.println(id+" "+chasisNo);
 		if(custServ.deleteVehicle(id,chasisNo))
 			return Response.success("Vehicle deleted Successfully");
 		return Response.error("Something went Wrong");
