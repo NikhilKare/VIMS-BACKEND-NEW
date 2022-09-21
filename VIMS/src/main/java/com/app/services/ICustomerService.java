@@ -3,6 +3,8 @@ package com.app.services;
 
 import java.util.List;
 
+import com.app.dto.DebitCardDetailsDTO;
+import com.app.dto.PaymentDTO;
 import com.app.dto.PolicyDetailsDTO;
 import com.app.dto.VehicleDTO;
 
@@ -21,6 +23,8 @@ public interface ICustomerService {
 	String getLicenseNo(long id);
 
 	PolicyDetailsDTO getPolicyById(long id);
+
+	PaymentDTO doPayment(long id, long policyId, String chasisNo, DebitCardDetailsDTO cardDto);
 
 
 

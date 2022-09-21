@@ -9,13 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.dto.DebitCardDetailsDTO;
+import com.app.dto.PaymentDTO;
 import com.app.dto.PolicyDetailsDTO;
 import com.app.dto.VehicleDTO;
 import com.app.entities.Customer;
+import com.app.entities.Payment;
 import com.app.entities.Policy;
 import com.app.entities.VehicleDetails;
 import com.app.repository.ICustomerRepository;
+import com.app.repository.IPaymentRepository;
 import com.app.repository.IPolicyRepository;
+import com.app.repository.IUserRepository;
 import com.app.repository.IVehicleRepository;
 
 @Service
@@ -27,10 +32,10 @@ public class CustomerServiceImpl implements ICustomerService {
 	private IPolicyRepository policyRepo;
 	@Autowired
 	private IVehicleRepository vehicleRepo;
-	
 	@Autowired
 	ICustomerRepository custRepo;
-	
+	@Autowired
+	IPaymentRepository paymentRepo;
 	@Autowired 
 	ModelMapper mapper;
 	@Override
@@ -99,6 +104,18 @@ public class CustomerServiceImpl implements ICustomerService {
 	public PolicyDetailsDTO getPolicyById(long id) {
 		PolicyDetailsDTO policy=mapper.map(policyRepo.findById(id).get(),PolicyDetailsDTO.class);
 		return policy;
+	}
+	@Override
+	public PaymentDTO doPayment(long id,long policyId,String chasisNo,DebitCardDetailsDTO cardDto) {
+		Payment payment=new Payment();
+		payment.setCustomer(custRepo.getById(id));
+		payment.setVehicle(vehicleRepo.getById(chasisNo));
+		payment.setPolicy(policyRepo.getById(policyId));
+		payment.setAmount(cardDto.getAmount());
+		payment.setName(cardDto.getCardHolder());
+		Payment payment2 = paymentRepo.save(payment);
+		return mapper.map(payment2, PaymentDTO.class);
+		
 	}
 	
 }

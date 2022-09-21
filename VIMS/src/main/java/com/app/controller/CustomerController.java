@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.DebitCardDetailsDTO;
+import com.app.dto.PaymentDTO;
 import com.app.dto.VehicleDTO;
+import com.app.entities.Payment;
 import com.app.services.ICustomerService;
 import com.app.utils.Response;
 
@@ -63,6 +66,13 @@ public class CustomerController {
 		if(custServ.deleteVehicle(id,chasisNo))
 			return Response.success("Vehicle deleted Successfully");
 		return Response.error("Something went Wrong");
-		
 	}
+	
+	@PostMapping("/payment")
+	public ResponseEntity<?> paymentDetails(@PathVariable long id,@RequestBody DebitCardDetailsDTO cardDto,@RequestParam long policyId,@RequestParam String chasisNo){
+		subscribePolicy(chasisNo, policyId, id);
+		PaymentDTO doPayment = custServ.doPayment(id, policyId, chasisNo, cardDto);
+		return Response.success(doPayment);
+	}
+	
 }
