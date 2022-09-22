@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProviderDTO {
-	@JsonProperty("id")
 	private long providerId;
 	@NotBlank(message = "Company name must be supplied")
 	private String companyName;

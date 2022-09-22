@@ -80,5 +80,18 @@ public class HomeServiceImpl implements IHomeService {
 		 userDto.setRoles(roles);
 		 return userDto;
 	}
+
+	@Override
+	public List<String> getAllUserNames() {
+			List<String> userNames = userRepo.getUserName();
+			System.out.println(userNames.toString());
+		return userNames;
+	}
+	@Override
+	public List<String> getAllEmails() {
+		List<String> emails = userRepo.getEmails();
+		System.out.println(emails.toString());
+	return emails;
+}
 	
 }

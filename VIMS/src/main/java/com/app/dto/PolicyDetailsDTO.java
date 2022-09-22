@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PolicyDetailsDTO {
-	@JsonProperty("id")
+
 	private Long policyId;
 	@NotEmpty(message = "Policy name must be supplied")
 	@Length(min = 4,max=30,message = "Invalid Policy name length")

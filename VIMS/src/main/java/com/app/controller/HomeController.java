@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ import com.app.dto.AuthRequest;
 import com.app.dto.AuthResp;
 import com.app.dto.UserDto;
 import com.app.jwt_utils.JwtUtils;
+import com.app.mailservice.EmailService;
 import com.app.services.IHomeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,11 +45,14 @@ public class HomeController {
 	@Autowired
 	IHomeService homeServ;
 	
+	@Autowired
+	EmailService mail;
+	
 	@PostMapping
 	public String registerUsers(@RequestBody UserDto u) {
 		if(!homeServ.RegisterUser(u))
 			return "Not Registered";
-		
+		mail.sendSimpleMessage(u.getEmail(), "James Bond "+u.getFirstName(), "Congratulations James Bond !!<br/> You have completed ur mission");
 		return "Registered Successfully...";
 	}
 	
@@ -74,5 +79,16 @@ public class HomeController {
 	public ResponseEntity<?> getAllPolicies(){
 		//return Response.success(homeServ.getAllPolicies());
 		return ResponseEntity.ok(homeServ.getAllPolicies());
+	}
+	
+	@GetMapping("/emails")
+	public ResponseEntity<?> getAllEmails(){
+		//return Response.success(homeServ.getAllPolicies());
+		return ResponseEntity.ok(homeServ.getAllEmails());
+	}
+	@GetMapping("/unames")
+	public ResponseEntity<?> getAllUserNames(){
+		//return Response.success(homeServ.getAllPolicies());
+		return ResponseEntity.ok(homeServ.getAllUserNames());
 	}
 }

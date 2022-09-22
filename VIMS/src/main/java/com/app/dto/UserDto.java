@@ -22,7 +22,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UserDto {
-	@JsonProperty("id")
 	private Long userId;
 	@NotEmpty(message = "First name must be supplied")
 	@Length(min = 4,max=30,message = "Invalid First name length")
@@ -32,7 +31,7 @@ public class UserDto {
 	@NotEmpty(message = "User Name must be supplied")
 	private String userName;
 	private String address;
-	@Pattern(regexp="^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$")	
+	@Pattern(regexp="^\\d{10}$")	
 	private String contactNumber;
 	@NotBlank
 	@Email(message = "Invalid Email")

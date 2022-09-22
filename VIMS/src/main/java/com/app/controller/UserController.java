@@ -2,10 +2,13 @@ package com.app.controller;
 
 import java.io.IOException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,12 +39,13 @@ public class UserController {
 	IUserService userServ;
 	@Autowired
 	IProviderService providerServ;
-	
+	@Autowired
+	JavaMailSender mail;
 
 	
 	
 	@PostMapping("/updatepass")
-	public String updatePassword(@RequestBody UserUpdate useData ){
+	public String updatePassword(@RequestBody @Valid UserUpdate useData ){
 		String msg="Invalid Credentials";
 		Boolean emailExists=userServ.updatePasswrod(useData);
 		if(emailExists==true)
@@ -64,7 +68,7 @@ public class UserController {
 	
 	//User can Update his Profile by id
 	@PutMapping()
-	public ResponseEntity<?> updateProfile(@RequestBody UserDto user){
+	public ResponseEntity<?> updateProfile(@RequestBody @Valid UserDto user){
 //		try {
 			System.out.println("in update"+user);
 			User user1=userServ.save(user);	

@@ -1,7 +1,10 @@
 package com.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.DebitCardDetailsDTO;
 import com.app.dto.PaymentDTO;
 import com.app.dto.VehicleDTO;
-import com.app.entities.Payment;
 import com.app.services.ICustomerService;
 import com.app.utils.Response;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/customers/{id}")
+@Validated
 public class CustomerController {
 
 	@Autowired
@@ -39,7 +42,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/vehicles")
-	public ResponseEntity<?> addVehicleDetails(@RequestBody VehicleDTO vehicleDTO,@PathVariable("id") long custId){
+	public ResponseEntity<?> addVehicleDetails(@RequestBody @Valid VehicleDTO vehicleDTO,@PathVariable("id") long custId){
 		if(custServ.addVehicleDetails(vehicleDTO, custId)) {
 			return Response.success("Vehicle Details Added Successfully...");
 		}
@@ -70,7 +73,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/payment")
-	public ResponseEntity<?> paymentDetails(@PathVariable long id,@RequestBody DebitCardDetailsDTO cardDto,@RequestParam long policyId,@RequestParam String chasisNo){
+	public ResponseEntity<?> paymentDetails(@PathVariable long id,@RequestBody @Valid DebitCardDetailsDTO cardDto,@RequestParam long policyId,@RequestParam String chasisNo){
 		subscribePolicy(chasisNo, policyId, id);
 		PaymentDTO doPayment = custServ.doPayment(id, policyId, chasisNo, cardDto);
 		return Response.success(doPayment);

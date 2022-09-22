@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentDTO {
-	@JsonProperty("id")
+	
 	private long transactionId;
 	@NotEmpty(message = "Name must be supplied")
 	private String name;
