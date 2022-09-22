@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
@@ -14,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dto.PolicyDetailsDTO;
 import com.app.dto.UserDto;
+import com.app.entities.OTP;
 import com.app.entities.Policy;
 import com.app.entities.User;
 import com.app.repository.IPolicyRepository;
 import com.app.repository.IUserRepository;
+import com.app.repository.OTPRepository;
 import com.app.utils.Roles;
 import com.app.utils.StatusEnum;
 
@@ -34,7 +37,9 @@ public class HomeServiceImpl implements IHomeService {
 	IPolicyRepository policyRepo;
 	@Autowired
 	PasswordEncoder encoder;
-
+	@Autowired
+	OTPRepository otpRepo;
+	
 	@Override
 	public User findByEmailAndPass(String email,String pass) {
 		System.out.println(email+" "+pass);
@@ -93,5 +98,24 @@ public class HomeServiceImpl implements IHomeService {
 		System.out.println(emails.toString());
 	return emails;
 }
+	@Override
+	public boolean setOtp(OTP otp) {
+		otpRepo.save(otp);
+		return true;
+	}
+
+	@Override
+	public String validateOTP(OTP otp) {
+		OTP otp2 = otpRepo.getById(otp.getEmail());
+		System.out.println(otp);
+		System.out.println(otp2);
+		if(otp.getOtp()==otp2.getOtp()) {
+			int otp3=(int) (Math.random()*9000)+1000;
+			String password=otp.getEmail().substring(0,4)+"@"+otp3;
+			userRepo.changePassword(otp.getEmail(),encoder.encode(password));
+			return password;
+		}
+		return null;
+	}
 	
 }

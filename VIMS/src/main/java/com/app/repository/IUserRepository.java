@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.app.entities.User;
@@ -15,7 +16,10 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 	@Query("select u.userName from User u")				
 	List<String> getUserName();
 	@Query("select u.email from User u")				
-	List<String>	getEmails();	
+	List<String> getEmails();
+	@Query("update User u set u.password=?2 where u.email=?1")
+	@Modifying
+	int changePassword(String email, String encode);	
 	
 	
 }

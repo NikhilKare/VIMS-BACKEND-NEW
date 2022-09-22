@@ -32,7 +32,7 @@ import com.app.utils.Roles;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class UserController {
 	
 	@Autowired
