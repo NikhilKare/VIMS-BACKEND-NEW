@@ -15,6 +15,6 @@ public class ProviderDTO {
 	private long providerId;
 	@NotBlank(message = "Company name must be supplied")
 	private String companyName;
-	private User user;
+	private UserDto user;
 	private StatusEnum status;
 }

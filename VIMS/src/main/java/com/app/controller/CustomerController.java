@@ -79,4 +79,9 @@ public class CustomerController {
 		return Response.success(doPayment);
 	}
 	
+	@GetMapping("/vehiclePolicyDetails/{chasisNo}")
+	public ResponseEntity<?> getVehiclePolicyDetails(@PathVariable long id,@PathVariable String chasisNo){
+		VehicleDTO vehicle= custServ.getVehicleDetails(id,chasisNo);
+		return ResponseEntity.ok(vehicle);
+	}
 }

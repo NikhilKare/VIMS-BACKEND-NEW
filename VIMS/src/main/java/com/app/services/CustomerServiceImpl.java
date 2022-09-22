@@ -120,5 +120,12 @@ public class CustomerServiceImpl implements ICustomerService {
 		return mapper.map(payment2, PaymentDTO.class);
 		
 	}
+
+	@Override
+	public VehicleDTO getVehicleDetails(long id, String chasisNo) {
+	VehicleDTO vehicleDTO = mapper.map(vehicleRepo.getById(chasisNo),VehicleDTO.class);
+		//if(vehicleDTO.get)
+		return vehicleDTO;
+	}
 	
 }

@@ -26,6 +26,8 @@ public interface ICustomerService {
 
 	PaymentDTO doPayment(long id, long policyId, String chasisNo, DebitCardDetailsDTO cardDto);
 
+	VehicleDTO getVehicleDetails(long id, String chasisNo);
+
 
 
 }
