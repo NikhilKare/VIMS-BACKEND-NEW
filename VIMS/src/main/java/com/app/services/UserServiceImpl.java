@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.RoleDTO;
@@ -42,7 +45,8 @@ public class UserServiceImpl implements IUserService{
 	ICustomerRepository custRepo;
 	@Autowired
 	IPolicyRepository policyRepo;
-	
+	@Autowired
+	BCryptPasswordEncoder encoder;
 	@Value("${file.upload.location}")
 	private String baseFolder;
 	@Autowired
@@ -55,7 +59,7 @@ public class UserServiceImpl implements IUserService{
 		User user=userRepo.findByEmailAndPassword(user1.getEmail(),user1.getOldPass());
 		if(user==null)
 			return false;
-		user.setPassword(user1.getNewPass());
+		user.setPassword(encoder.encode(user1.getNewPass()));
 		userRepo.save(user);
 		return true;
 	}
@@ -149,5 +153,19 @@ public class UserServiceImpl implements IUserService{
 		
 	}
 	
+	@Override
+	public boolean resetPasswrod(Long id,String password) {
+		System.out.println("pass:"+password +encoder.encode(password)+"    id:"+id);
+		int i=userRepo.changePassword(encoder.encode(password),id);
+		System.out.println(i);
+		if(i==1)
+			return true;
+		return false;
+	}
+	
+	@Override
+	public List<String> getAllCompanyNames(){
+		return providerRepo.getAllCompanyNames();
+	}
 	
 }

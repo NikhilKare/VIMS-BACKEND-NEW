@@ -19,7 +19,13 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 	List<String> getEmails();
 	@Query("update User u set u.password=?2 where u.email=?1")
 	@Modifying
-	int changePassword(String email, String encode);	
+	int changePassword(String email, String encode);
+	User getByEmail(String email);
+	
+	@Query("update User u set u.password=?1 where u.userId=?2")
+	@Modifying(flushAutomatically = true)
+	int changePassword( String encode,long id);
+		
 	
 	
 }

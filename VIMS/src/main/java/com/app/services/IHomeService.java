@@ -17,4 +17,5 @@ public interface IHomeService {
 	List<String> getAllUserNames();
 	boolean setOtp(OTP otp);
 	String validateOTP(OTP otp);
+	User getByEmail(String email);
 }

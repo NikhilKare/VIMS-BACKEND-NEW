@@ -4,8 +4,10 @@ package com.app.controller;
 
 
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import com.app.dto.AuthRequest;
 import com.app.dto.AuthResp;
 import com.app.dto.UserDto;
 import com.app.entities.OTP;
+import com.app.entities.User;
 import com.app.jwt_utils.JwtUtils;
 import com.app.mailservice.EmailService;
 import com.app.services.IHomeService;
@@ -51,11 +54,20 @@ public class HomeController {
 	@Autowired
 	EmailService mail;
 	
+	
+
 	@PostMapping
 	public String registerUsers(@RequestBody UserDto u) {
 		if(!homeServ.RegisterUser(u))
 			return "Not Registered";
-		mail.sendSimpleMessage(u.getEmail(), "James Bond "+u.getFirstName(), "Congratulations James Bond !!<br/> You have completed ur mission");
+		mail.sendSimpleMessage(u.getEmail(),	"Registration : VEHICLE INSURANCE BAZAR.","<div> <span>Dear <strong><a href=mailto:"+u.getEmail()+" target=_blank>"+u.getEmail()+"</a></strong>,</span><br>"
+				+ "<p></p><p><b>Congratulations. You have <span class=il>successfully</span> registered on Vehicle Insurance Bazar .</b></p><p>Your login credentials as follows <br> "
+				+ "<b>UserName : </b> <a href=mailto:"+u.getEmail()+" target=_blank>"+u.getEmail()+"</a><br>"
+				+ "<b>Password : </b>"+u.getPassword()+"</p> <p></p> --<br>"
+				+ "<span>Regards,</span><br>"
+				+ "<span>VEHICLE INSURANCE BAZAR</span><br>"
+				+ "<span>Ganeshkhind Road,</span><br><span>PUNE 411 xxx</span>"
+				+ "<div class=yj6qo></div><div class=adL></div></div>");
 		return "Registered Successfully...";
 	}
 	
@@ -98,9 +110,14 @@ public class HomeController {
 			OTP otp1=new OTP();
 			otp1.setEmail(email);
 			otp1.setOtp(otp);
+			otp1.setDateCreated(LocalDateTime.now());
 			
 			if(homeServ.setOtp(otp1)) {
-				mail.sendSimpleMessage(email, "Forget Password","dear "+user.getFirstName()+",<br/>Your OTP is <b>"+otp+"<b/>");
+				System.out.println("sending mail..............");
+			String msg="<div  class=a3s aiL ><div><p>Dear Customer, <br> </p> <p>Your <span class=il>OTP</span> is <b>"+otp+"</b> .OTP is valid for 10 minutes only.<br/> Do not share it with anyone by any means. This is confidential and to be used by you only.</p> <p>Warm regards, <br>Vehicle Insurance Bazaar</p></div><div class=yj6qo></div><div class=adL>\r\n"
+				+ "</div></div>";
+				mail.sendSimpleMessage(email, "OTP Request",msg);
+				System.out.println("Returning");
 				return Response.success("OTP Sent Successfully...");
 			}	
 		}
@@ -109,10 +126,10 @@ public class HomeController {
 	
 	@PostMapping("/forgetpass")
 	public ResponseEntity<?> sendOTP(@RequestBody OTP otp){
-		String validate=homeServ.validateOTP(otp);
-		if(validate==null)
+		String jwtToken=homeServ.validateOTP(otp);
+		if(jwtToken==null)
 			return Response.error("Invalid OTP !!!");
-		mail.sendSimpleMessage(otp.getEmail(),"Password Changed","dear Customer <br/> Please use "+validate+" as old password for updating password");
-		return Response.success("OTP Sent Successfully...");
+		System.out.println(jwtToken);
+		return ResponseEntity.ok(new AuthResp("Auth successful!",jwtToken,homeServ.findByEmail(otp.getEmail())));
 	}
 }

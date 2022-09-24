@@ -1,5 +1,7 @@
 package com.app.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,4 +17,5 @@ public class OTP {
 	@Id
 	private String email;
 	private int otp;
+	private LocalDateTime dateCreated;
 }

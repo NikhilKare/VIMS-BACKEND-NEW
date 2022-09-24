@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.app.entities.User;
 import com.app.services.CustomUserDetails;
 
 import io.jsonwebtoken.Jwts;
@@ -22,6 +23,23 @@ public class JwtUtils {
 	@Value("${EXP_TIMEOUT}")
 	private int jwtExpirationMs;
 
+	public String generateJwtToken(User u) {
+		log.info("generate jwt token " + u);
+		//e,issued at ,exp date,digital signature(does not typically contain password , can contain authorities
+		return Jwts.builder() // JWTs : a Factory class , used to create JWT tokens
+				.setSubject((u.getEmail())) // setting subject of the token(typically user name) :sets
+															// subject claim part of the token
+				.setIssuedAt(new Date())// Sets the JWT Claims iat (issued at) value of current date
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))// Sets the JWT Claims exp
+																					// (expiration) value.
+				.signWith(SignatureAlgorithm.HS512, jwtSecret) // Signs the constructed JWT using the specified
+																// algorithm with the specified key, producing a
+																// JWS(Json web signature=signed JWT)
+
+				// Using token signing algo : HMAC using SHA-512
+				.compact();// Actually builds the JWT and serializes it to a compact, URL-safe string
+	}
+	
 	public String generateJwtToken(Authentication authentication) {
 		log.info("generate jwt token " + authentication);
 		CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();

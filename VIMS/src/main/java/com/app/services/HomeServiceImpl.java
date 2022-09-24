@@ -1,6 +1,7 @@
 package com.app.services;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.app.dto.UserDto;
 import com.app.entities.OTP;
 import com.app.entities.Policy;
 import com.app.entities.User;
+import com.app.jwt_utils.JwtUtils;
 import com.app.repository.IPolicyRepository;
 import com.app.repository.IUserRepository;
 import com.app.repository.OTPRepository;
@@ -39,6 +41,8 @@ public class HomeServiceImpl implements IHomeService {
 	PasswordEncoder encoder;
 	@Autowired
 	OTPRepository otpRepo;
+	@Autowired
+	JwtUtils jwt;
 	
 	@Override
 	public User findByEmailAndPass(String email,String pass) {
@@ -109,13 +113,24 @@ public class HomeServiceImpl implements IHomeService {
 		OTP otp2 = otpRepo.getById(otp.getEmail());
 		System.out.println(otp);
 		System.out.println(otp2);
-		if(otp.getOtp()==otp2.getOtp()) {
-			int otp3=(int) (Math.random()*9000)+1000;
-			String password=otp.getEmail().substring(0,4)+"@"+otp3;
-			userRepo.changePassword(otp.getEmail(),encoder.encode(password));
-			return password;
+		LocalDateTime now = LocalDateTime.now();
+
+		
+		if(otp.getOtp()==otp2.getOtp()&&now.isBefore(otp2.getDateCreated().plusMinutes(10)))
+		{
+			User user= userRepo.getByEmail(otp.getEmail());
+			otpRepo.delete(otp2);
+			return jwt.generateJwtToken(user);		
+			
 		}
 		return null;
+	}
+
+	@Override
+	public User getByEmail(String email) {
+			
+		return userRepo.getByEmail(email);
+		
 	}
 	
 }

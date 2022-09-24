@@ -21,7 +21,16 @@ public class EmailService {
             helper.setFrom("noreply@ecommerce.com");
             helper.setTo(to); 
             helper.setText(text,true);
-            emailSender.send(message);
+            Runnable run=new Runnable() {
+			@Override
+			public void run() {
+			 emailSender.send(message);
+				System.out.println("mail sent");	
+				}
+			};
+             Thread t=new Thread(run,"mail sending");
+             t.start();
+           
         }catch(Exception ex) {
             System.out.println("Error "+ex.getMessage());
         }

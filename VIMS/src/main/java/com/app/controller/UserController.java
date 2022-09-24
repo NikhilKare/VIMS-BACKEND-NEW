@@ -1,6 +1,8 @@
 package com.app.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -25,6 +27,7 @@ import com.app.dto.RoleDTO;
 import com.app.dto.UserDto;
 import com.app.dto.UserUpdate;
 import com.app.entities.User;
+import com.app.mailservice.EmailService;
 import com.app.services.IProviderService;
 import com.app.services.IUserService;
 import com.app.utils.Response;
@@ -40,7 +43,7 @@ public class UserController {
 	@Autowired
 	IProviderService providerServ;
 	@Autowired
-	JavaMailSender mail;
+	EmailService mail;
 
 	
 	
@@ -52,7 +55,17 @@ public class UserController {
 		msg="Password Updated";
 		return msg;
 	}
-	
+	@PostMapping("/{id}/resetPass")
+	public String resetPassword(@PathVariable Long id,@RequestBody UserUpdate u ){
+		String msg="Invalid Credentials";
+		System.out.println(u.getNewPass()+"        "+id);
+		Boolean change=userServ.resetPasswrod(id,u.getNewPass());
+		if(change==true)
+		mail.sendSimpleMessage(u.getEmail(), "Password  Reset (VIB) ", "This is a confirmation that the password for your Insurance Vehicle Bazar account has just been changed.<br/>"
+				+ "If you didn't change your password, you can secure your accountt.\r\n"
+				);
+		return msg;
+	}
 	
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getUserById(@PathVariable long userId){
@@ -135,6 +148,11 @@ public class UserController {
 		};
 		return ResponseEntity.badRequest().body("Cannot remove role");
 		
+	}
+	
+	@GetMapping("/getCompanies")
+	public List<String> getAllCompanyNames(){
+		return userServ.getAllCompanyNames();
 	}
 }
 

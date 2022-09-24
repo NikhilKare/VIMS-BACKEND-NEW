@@ -1,6 +1,7 @@
 package com.app.services;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,4 +22,6 @@ public interface IUserService {
 	byte[] restoreImage(long userId) throws IOException;
 	boolean removeRole(Roles role, long id);
 	void changeStatusAccount(long id);
+	boolean resetPasswrod(Long id, String password);
+	List<String> getAllCompanyNames();
 }
