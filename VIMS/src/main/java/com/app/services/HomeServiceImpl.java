@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,13 +71,14 @@ public class HomeServiceImpl implements IHomeService {
 	}
 	
 	@Override
-	public List<PolicyDetailsDTO> getAllPolicies() {
+	public List<PolicyDetailsDTO> getAllPolicies(int pageNo) {
 		
-		 List<Policy> policies = policyRepo.findAll();
+		Pageable page=Pageable.ofSize(2).withPage(pageNo-1);
+		
+		 List<Policy> policies = policyRepo.findAll(page).toList();
 		 List<PolicyDetailsDTO> policiesDTO=new ArrayList<PolicyDetailsDTO>();
-		 
-		policies.forEach(i-> policiesDTO.add( mapper.map(i, PolicyDetailsDTO.class)));
-		return policiesDTO;
+		 policies.forEach(i-> policiesDTO.add(mapper.map(i, PolicyDetailsDTO.class)));
+		 return policiesDTO;
 		// return policies.stream().map(i->mapper.map(policies, PolicyDetailsDTO.class)).collect(Collectors.toList());
 	}
 
@@ -131,6 +133,12 @@ public class HomeServiceImpl implements IHomeService {
 			
 		return userRepo.getByEmail(email);
 		
+	}
+
+	@Override
+	public long getNoOfPolicies() {
+		
+		return policyRepo.count();
 	}
 	
 }

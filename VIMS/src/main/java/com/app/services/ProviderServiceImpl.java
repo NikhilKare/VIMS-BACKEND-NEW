@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,9 +67,10 @@ public class ProviderServiceImpl implements IProviderService{
 			policy.setPolicyLaunchDate(LocalDate.now());
 			
 			InsuranceProvider provider = providerRepo.getById(userId);
+			policy=policyRepo.saveAndFlush(policy);
 			provider.getPolicy().add(policy);
 			policy.setProvider(provider);
-//			policyRepo.save(policy);
+			policyRepo.save(policy);
 			return true;
 		}catch (Exception e) {
 			return false;
@@ -76,9 +78,10 @@ public class ProviderServiceImpl implements IProviderService{
 	}
 
 	@Override
-	public List<PolicyDetailsDTO> getPolicies(long id) {
+	public List<PolicyDetailsDTO> getPolicies(long id,int pageNo) {
 		List<PolicyDetailsDTO> policyDetailsDTO=new ArrayList<PolicyDetailsDTO>();
-				policyRepo.findByProviderId(id).forEach(i->policyDetailsDTO.add(mapper.map(i, PolicyDetailsDTO.class)));
+		Pageable page=Pageable.ofSize(8).withPage(pageNo-1);
+				policyRepo.findByProviderId(id,page).forEach(i->policyDetailsDTO.add(mapper.map(i, PolicyDetailsDTO.class)));
 		return policyDetailsDTO;
 	}
 

@@ -35,9 +35,9 @@ public class PolicyProviderController {
 	}
 	
 	@GetMapping("/{id}/policies")
-	public ResponseEntity<?> getPoliciesOfProvider(@PathVariable long id)
+	public ResponseEntity<?> getPoliciesOfProvider(@PathVariable long id,@RequestParam int pageNo)
 	{
-	List<PolicyDetailsDTO> policies= providerServ.getPolicies(id);
+	List<PolicyDetailsDTO> policies= providerServ.getPolicies(id,pageNo);
 	return Response.success(policies);
 	}
 	

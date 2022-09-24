@@ -87,9 +87,9 @@ public class HomeController {
 	}
 	
 	@GetMapping("/policies")
-	public ResponseEntity<?> getAllPolicies(){
+	public ResponseEntity<?> getAllPolicies(@RequestParam int pageNo){
 		//return Response.success(homeServ.getAllPolicies());
-		return ResponseEntity.ok(homeServ.getAllPolicies());
+		return ResponseEntity.ok(homeServ.getAllPolicies(pageNo));
 	}
 	
 	@GetMapping("/emails")
@@ -131,5 +131,10 @@ public class HomeController {
 			return Response.error("Invalid OTP !!!");
 		System.out.println(jwtToken);
 		return ResponseEntity.ok(new AuthResp("Auth successful!",jwtToken,homeServ.findByEmail(otp.getEmail())));
+	}
+	
+	@GetMapping("/getNoOfPolicies")
+	public ResponseEntity<?> getNoOfPolicies(){
+		return Response.success(homeServ.getNoOfPolicies());
 	}
 }

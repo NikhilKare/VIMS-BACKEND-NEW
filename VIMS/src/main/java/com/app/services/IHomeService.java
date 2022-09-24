@@ -11,11 +11,12 @@ public interface IHomeService {
 
 	User findByEmailAndPass(String email, String pass);
 	boolean RegisterUser(UserDto u);
-	List<PolicyDetailsDTO> getAllPolicies();
+	List<PolicyDetailsDTO> getAllPolicies(int pageNo);
 	UserDto findByEmail(String email);
 	List<String> getAllEmails();
 	List<String> getAllUserNames();
 	boolean setOtp(OTP otp);
 	String validateOTP(OTP otp);
 	User getByEmail(String email);
+	long getNoOfPolicies();
 }

@@ -19,12 +19,14 @@ public interface IProviderService {
 
 	boolean addPolicy(PolicyDetailsDTO policy, long providerId);
 
-	List<PolicyDetailsDTO> getPolicies(long id);
+//	List<PolicyDetailsDTO> getPolicies(long id);
 
 	boolean deletePolicy(long id, long policyId);
 
 	PolicyDetailsDTO getPolicy(long id, long policyId) throws Exception;
 
 	boolean updatePolicy(PolicyDetailsDTO policyDTO, long providerId);
+
+	List<PolicyDetailsDTO> getPolicies(long id, int pageNo);
 
 }
