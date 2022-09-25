@@ -80,7 +80,7 @@ public class ProviderServiceImpl implements IProviderService{
 	@Override
 	public List<PolicyDetailsDTO> getPolicies(long id,int pageNo) {
 		List<PolicyDetailsDTO> policyDetailsDTO=new ArrayList<PolicyDetailsDTO>();
-		Pageable page=Pageable.ofSize(8).withPage(pageNo-1);
+		Pageable page=Pageable.ofSize(2).withPage(pageNo-1);
 				policyRepo.findByProviderId(id,page).forEach(i->policyDetailsDTO.add(mapper.map(i, PolicyDetailsDTO.class)));
 		return policyDetailsDTO;
 	}
@@ -119,6 +119,15 @@ public class ProviderServiceImpl implements IProviderService{
 		}catch (Exception e) {
 			return false;
 		}		
+	}
+	
+	@Override
+	public long getNoOfPolicies(long id) {
+		
+				long countByProvider = policyRepo.countByProvider(id);
+				System.out.println(countByProvider);
+				return countByProvider;
+						
 	}
 	
 	

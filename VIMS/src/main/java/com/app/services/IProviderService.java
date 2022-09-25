@@ -29,4 +29,6 @@ public interface IProviderService {
 
 	List<PolicyDetailsDTO> getPolicies(long id, int pageNo);
 
+	long getNoOfPolicies(long id);
+
 }

@@ -51,7 +51,7 @@ public class PolicyProviderController {
 		return Response.error("Failed to add policy...Please check");		
 	}
 	
-	@GetMapping("{id}/policies/{policyId}")
+	@GetMapping("/{id}/policies/{policyId}")
 	public ResponseEntity<?> getPolicy(@PathVariable long id,@PathVariable long policyId){
 		PolicyDetailsDTO policyDetailsDTO=null;
 		 try {
@@ -84,6 +84,11 @@ public class PolicyProviderController {
 		return Response.error("Cannot Remove Policy");
 		
 		
+	}
+	
+	@GetMapping("/{id}/countPolicy")
+	public ResponseEntity<?> getPolicyCount(@PathVariable long id){
+		return ResponseEntity.ok(providerServ.getNoOfPolicies(id));
 	}
 	
 }
