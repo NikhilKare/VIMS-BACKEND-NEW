@@ -74,6 +74,7 @@ public class HomeController {
 	@PostMapping("/login")
 	public ResponseEntity<?> getLogin(@RequestBody @Valid AuthRequest request) {
 		
+		System.out.println(request.getEmail()+"  "+request.getPassword());
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.getEmail(),
 				request.getPassword());
 		log.info("auth token " + authToken);
