@@ -70,6 +70,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		}	
 	}
 	
+	
 	@Override
 	public boolean subscribePolicy(String vehicleId,long policyId,long userId) {
 		Policy policy = policyRepo.getById(policyId);
@@ -96,6 +97,9 @@ public class CustomerServiceImpl implements ICustomerService {
 		{
 			System.out.println("in if");
 			vehicle.setPolicy(null);
+//			paymentRepo.deleteAllByVehicle(vehicle);;
+			paymentRepo.deleteAllByVehicle(vehicle);
+			
 			cust.getVehicles().remove(vehicle);
 			vehicleRepo.delete(vehicle);
 			result=true;
@@ -111,9 +115,9 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Override
 	public PaymentDTO doPayment(long id,long policyId,String chasisNo,DebitCardDetailsDTO cardDto) {
 		Payment payment=new Payment();
-		payment.setCustomer(custRepo.getById(id));
+//		payment.setCustomer(custRepo.getById(id));
 		payment.setVehicle(vehicleRepo.getById(chasisNo));
-		payment.setPolicy(policyRepo.getById(policyId));
+//		payment.setPolicy(policyRepo.getById(policyId));
 		payment.setAmount(cardDto.getAmount());
 		payment.setName(cardDto.getCardHolder());
 		Payment payment2 = paymentRepo.save(payment);

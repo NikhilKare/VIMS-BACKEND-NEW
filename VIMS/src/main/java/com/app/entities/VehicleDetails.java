@@ -27,7 +27,7 @@ public class VehicleDetails {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "cust_id")
 	private Customer customer;
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "policy_id")
 	private Policy policy;
 	private LocalDate subscriptionDate;
